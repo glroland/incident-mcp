@@ -16,9 +16,10 @@ class Settings(BaseSettings):
     port: int = Field(default=8080, description="Bind port for the MCP server")
     log_level: str = Field(default="INFO", description="Logging level (DEBUG, INFO, WARNING, ERROR)")
 
-    # Incident management system
-    api_url: str = Field(description="Base URL of the incident management API")
-    api_key: str = Field(description="API key for authenticating with the incident management API")
+    # ServiceNow
+    api_url: str = Field(description="ServiceNow instance base URL (e.g. https://myinstance.service-now.com)")
+    api_username: str = Field(description="ServiceNow username for basic auth")
+    api_password: str = Field(description="ServiceNow password for basic auth")
     api_timeout: int = Field(default=30, description="HTTP timeout in seconds for API calls")
 
 
