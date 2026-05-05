@@ -1,7 +1,10 @@
-from logger import log_call
+import logging
+
 from models import TimelineEntry
 from servicenow import JOURNAL_FIELDS, client
 from settings import settings
+
+logger = logging.getLogger(__name__)
 
 
 def _lookup_sys_id(incident_number: str) -> str:
@@ -50,16 +53,18 @@ def _fetch_latest_journal_entry(sys_id: str) -> dict:
     return entries[0]
 
 
-@log_call
 def add_timeline_entry(incident_id: str, message: str, author: str) -> TimelineEntry:
     """Add a timeline entry to an incident."""
+    logger.info("add_timeline_entry(incident_id=%r, author=%r, message=%r)", incident_id, author, message)
     sys_id = _lookup_sys_id(incident_id)
     _add_work_note(sys_id, message)
     entry = _fetch_latest_journal_entry(sys_id)
-    return TimelineEntry(
+    result = TimelineEntry(
         id=entry["sys_id"],
         incident_id=incident_id,
         timestamp=entry.get("sys_created_on", ""),
         author=author,
         message=message,
     )
+    logger.info("add_timeline_entry returned %r", result)
+    return result

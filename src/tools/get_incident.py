@@ -1,7 +1,10 @@
-from logger import log_call
+import logging
+
 from models import Incident
 from servicenow import INCIDENT_FIELDS, JOURNAL_FIELDS, client, map_incident
 from settings import settings
+
+logger = logging.getLogger(__name__)
 
 
 def _fetch_incident_record(incident_number: str) -> dict:
@@ -37,9 +40,11 @@ def _fetch_journal_entries(sys_id: str) -> list[dict]:
     return response.json().get("result", [])
 
 
-@log_call
 def get_incident(incident_id: str) -> Incident:
     """Get details for a specific incident by ID, including its full timeline."""
+    logger.info("get_incident(incident_id=%r)", incident_id)
     record = _fetch_incident_record(incident_id)
     journal = _fetch_journal_entries(record["sys_id"])
-    return map_incident(record, journal)
+    result = map_incident(record, journal)
+    logger.info("get_incident returned %r", result)
+    return result

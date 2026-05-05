@@ -1,9 +1,11 @@
+import logging
 from datetime import date
 
-from logger import log_call
 from models import Incident
 from servicenow import INCIDENT_FIELDS, client, map_incident
 from settings import settings
+
+logger = logging.getLogger(__name__)
 
 
 def _build_query(
@@ -21,13 +23,14 @@ def _build_query(
     return "^".join(clauses)
 
 
-@log_call
 def search(
     hostname: str | None = None,
     start_date: date | None = None,
     end_date: date | None = None,
 ) -> list[Incident]:
     """Search incidents. At least one of hostname, start_date, or end_date must be provided."""
+    logger.info("search(hostname=%r, start_date=%r, end_date=%r)", hostname, start_date, end_date)
+
     if not any([hostname, start_date, end_date]):
         raise ValueError("At least one search parameter must be specified.")
 
@@ -42,4 +45,6 @@ def search(
         )
         response.raise_for_status()
 
-    return [map_incident(record) for record in response.json().get("result", [])]
+    result = [map_incident(record) for record in response.json().get("result", [])]
+    logger.info("search returned %d incident(s)", len(result))
+    return result

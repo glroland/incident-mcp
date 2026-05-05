@@ -15,11 +15,11 @@ run:
 	cd src && python -m server
 
 test:
-	PYTHONPATH=. $(PYTHON) -m pytest tests/ -v
+	python -m pytest tests/ -v
 
 lint:
-	PYTHONPATH=. $(VENV)/bin/ruff check src/ tests/
+	ruff check src/ tests/
 
 format:
-	PYTHONPATH=. $(VENV)/bin/ruff format src/ tests/
-	PYTHONPATH=. $(VENV)/bin/ruff check --fix src/ tests/
+	ruff format src/ tests/
+	ruff check --fix src/ tests/
