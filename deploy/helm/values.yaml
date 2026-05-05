@@ -1,0 +1,43 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/glroland/incident-mcp
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+
+service:
+  port: 8080
+
+route:
+  enabled: true
+  host: ""
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# Non-sensitive configuration
+config:
+  host: "0.0.0.0"
+  port: "8080"
+  logLevel: INFO
+  apiTimeout: "30"
+
+# ServiceNow credentials
+# In production, set existingSecret to the name of a pre-existing Secret
+# and leave apiUrl/apiUsername/apiPassword empty.
+servicenow:
+  existingSecret: ""
+  apiUrl: ""
+  apiUsername: ""
+  apiPassword: ""

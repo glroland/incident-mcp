@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "incident-mcp.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "incident-mcp.labels" . | nindent 4 }}
+data:
+  INCIDENT_MCP_HOST: {{ .Values.config.host | quote }}
+  INCIDENT_MCP_PORT: {{ .Values.config.port | quote }}
+  INCIDENT_MCP_LOG_LEVEL: {{ .Values.config.logLevel | quote }}
+  INCIDENT_MCP_API_TIMEOUT: {{ .Values.config.apiTimeout | quote }}
