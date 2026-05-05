@@ -6,13 +6,11 @@ from settings import settings
 from tools.add_timeline_entry import add_timeline_entry
 from tools.get_incident import get_incident
 from tools.search import search
-from tools.update_incident import update_incident
 
 mcp = FastMCP("Incident Management", instructions="Tools for interacting with the incident management system.")
 
 mcp.tool()(search)
 mcp.tool()(get_incident)
-mcp.tool()(update_incident)
 mcp.tool()(add_timeline_entry)
 
 

@@ -16,5 +16,4 @@ async def test_server_lists_tools(client):
 
     assert "search" in tool_names
     assert "get_incident" in tool_names
-    assert "update_incident" in tool_names
     assert "add_timeline_entry" in tool_names
