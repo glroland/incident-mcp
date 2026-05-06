@@ -41,11 +41,12 @@ INCIDENT_MCP_API_PASSWORD=your-password-here
 make run
 ```
 
-The server binds to `0.0.0.0:8080` by default and speaks the MCP streamable HTTP protocol. Override host and port via environment variables:
+The server binds to `0.0.0.0:8080` by default using the `streamable-http` MCP transport. Override via environment variables:
 
 ```ini
 INCIDENT_MCP_HOST=127.0.0.1
 INCIDENT_MCP_PORT=9090
+INCIDENT_MCP_TRANSPORT=sse
 ```
 
 ## Configuration
@@ -60,6 +61,7 @@ All configuration is via environment variables (or `.env`). Every variable is pr
 | `INCIDENT_MCP_API_TIMEOUT` | `30` | no | HTTP timeout in seconds |
 | `INCIDENT_MCP_HOST` | `0.0.0.0` | no | Server bind host |
 | `INCIDENT_MCP_PORT` | `8080` | no | Server bind port |
+| `INCIDENT_MCP_TRANSPORT` | `streamable-http` | no | MCP transport (`streamable-http`, `sse`, `http`) |
 | `INCIDENT_MCP_LOG_LEVEL` | `INFO` | no | Log level (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
 
 ## Project Structure

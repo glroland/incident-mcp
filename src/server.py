@@ -16,7 +16,7 @@ mcp.tool()(add_timeline_entry)
 
 def main() -> None:
     configure_logging()
-    app = mcp.http_app(transport="streamable-http")
+    app = mcp.http_app(transport=settings.transport)
     uvicorn.run(app, host=settings.host, port=settings.port)
 
 

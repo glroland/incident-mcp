@@ -1,3 +1,5 @@
+from typing import Literal
+
 from dotenv import load_dotenv
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -14,6 +16,9 @@ class Settings(BaseSettings):
     # Server
     host: str = Field(default="0.0.0.0", description="Bind host for the MCP server")
     port: int = Field(default=8080, description="Bind port for the MCP server")
+    transport: Literal["streamable-http", "sse", "http"] = Field(
+        default="streamable-http", description="MCP transport protocol"
+    )
     log_level: str = Field(default="INFO", description="Logging level (DEBUG, INFO, WARNING, ERROR)")
 
     # ServiceNow
