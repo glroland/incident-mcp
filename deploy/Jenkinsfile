@@ -1,0 +1,56 @@
+pipeline 
+{
+   agent any
+   
+   options 
+   {
+      disableConcurrentBuilds()
+      buildDiscarder(logRotator(numToKeepStr: '2'))
+   }
+
+   stages
+   {
+      stage('Prepare') 
+      {
+         steps 
+         {
+            sh '''
+                    echo "PATH = ${PATH}"
+                '''
+
+            git branch: 'main', 
+                credentialsId: 'github',
+                url: 'https://github.com/glroland/incident-mcp.git'
+         }
+      }
+
+      stage('Create Docker Image for incident-mcp') 
+      {
+         steps 
+         {
+            sh 'cd incident-mcp ; docker build -f Dockerfile --tag incident-mcp:$BUILD_NUMBER .'
+            sh 'cd incident-mcp ; docker save incident-mcp:$BUILD_NUMBER > incident-mcp-dockerimage.tar'
+            step(followSymlinks: false, artifacts: 'incident-mcp/incident-mcp-dockerimage.tar', $class: 'ArtifactArchiver')
+            sh 'cd incident-mcp ; docker rmi incident-mcp:$BUILD_NUMBER'
+         }
+      }
+
+      stage('Reload then push images to quay') 
+      {
+         steps 
+         {
+            script 
+            {
+               docker.withRegistry('https://registry.home.glroland.com/', 'quay') 
+               {
+                  sh 'docker load -i incident-mcp/incident-mcp-dockerimage.tar'
+                  sh 'docker tag incident-mcp:$BUILD_NUMBER registry.home.glroland.com/ai/incident-mcp:$BUILD_NUMBER'
+                  sh 'docker rmi incident-mcp:$BUILD_NUMBER'
+                  sh 'docker push registry.home.glroland.com/ai/incident-mcp:$BUILD_NUMBER'
+                  sh 'docker rmi registry.home.glroland.com/ai/incident-mcp:$BUILD_NUMBER'
+               }
+            }
+         }
+      }
+   }
+}
