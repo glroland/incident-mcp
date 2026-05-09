@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/glroland/incident-mcp
-  tag: latest
+  repository: registry.home.glroland.com/ai/incident-mcp
+  tag: 4
   pullPolicy: IfNotPresent
 
 serviceAccount:
