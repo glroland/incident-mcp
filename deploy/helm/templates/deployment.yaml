@@ -36,8 +36,22 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "incident-mcp.fullname" . }}
-            - secretRef:
-                name: {{ include "incident-mcp.secretName" . }}
+          env:
+            - name: INCIDENT_MCP_SNOW_INSTANCE
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: SERVICE_NOW_INSTANCE
+            - name: INCIDENT_MCP_SNOW_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: SERVICE_NOW_USERNAME
+            - name: INCIDENT_MCP_SNOW_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: SERVICE_NOW_PASSWORD
           livenessProbe:
             tcpSocket:
               port: http

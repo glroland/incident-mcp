@@ -43,7 +43,7 @@ JOURNAL_FIELDS = ",".join([
 
 def client() -> httpx.Client:
     return httpx.Client(
-        auth=(settings.api_username, settings.api_password),
+        auth=(settings.snow_username, settings.snow_password),
         headers={"Accept": "application/json"},
         timeout=settings.api_timeout,
     )

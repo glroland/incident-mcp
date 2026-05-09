@@ -30,9 +30,9 @@ cp .env.example .env
 ```
 
 ```ini
-INCIDENT_MCP_API_URL=https://myinstance.service-now.com
-INCIDENT_MCP_API_USERNAME=svc_mcp_user
-INCIDENT_MCP_API_PASSWORD=your-password-here
+INCIDENT_MCP_SNOW_INSTANCE=myinstance
+INCIDENT_MCP_SNOW_USERNAME=svc_mcp_user
+INCIDENT_MCP_SNOW_PASSWORD=your-password-here
 ```
 
 ## Running
@@ -55,9 +55,9 @@ All configuration is via environment variables (or `.env`). Every variable is pr
 
 | Variable | Default | Required | Description |
 |---|---|---|---|
-| `INCIDENT_MCP_API_URL` | — | yes | ServiceNow instance base URL |
-| `INCIDENT_MCP_API_USERNAME` | — | yes | ServiceNow username |
-| `INCIDENT_MCP_API_PASSWORD` | — | yes | ServiceNow password |
+| `INCIDENT_MCP_SNOW_INSTANCE` | — | yes | ServiceNow instance name (e.g. `myinstance`) |
+| `INCIDENT_MCP_SNOW_USERNAME` | — | yes | ServiceNow username |
+| `INCIDENT_MCP_SNOW_PASSWORD` | — | yes | ServiceNow password |
 | `INCIDENT_MCP_API_TIMEOUT` | `30` | no | HTTP timeout in seconds |
 | `INCIDENT_MCP_HOST` | `0.0.0.0` | no | Server bind host |
 | `INCIDENT_MCP_PORT` | `8080` | no | Server bind port |
